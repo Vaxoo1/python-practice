@@ -671,3 +671,202 @@ ending_index = index + 1
 
 This connects the calculated result to the original data that produced it.
 
+
+# 28. State Tracking, Direction + Magnitude
+## What is state tracking?
+
+State tracking means maintaining information about what the program has discovered so far while processing data.
+
+A loop can continuously update this information as it examines each value.
+
+Examples of state:
+
+* count
+* total
+* largest value
+* smallest value
+* whether something has been found
+* first occurrence
+* information belonging to the current best result
+
+---
+
+## Running State
+
+A running state is information that changes as the loop processes each element.
+
+Example:
+
+```python
+count = 0
+total = 0
+largest = None
+```
+
+The loop updates these variables as it processes the data.
+
+---
+
+## Running Maximum
+
+A running maximum keeps track of the largest value found so far.
+
+```python
+largest = None
+
+if largest is None or value > largest:
+    largest = value
+```
+
+The important idea is:
+
+> Compare the current value with the best value found so far.
+
+If the current value is better, replace the previous best.
+
+---
+
+## Tracking Related State
+
+Sometimes finding the largest value is not enough.
+
+For example, if we find the largest price movement, we may also need to know:
+
+```text
+largest movement
+starting price
+ending price
+starting index
+ending index
+direction
+```
+
+These values all describe the same event.
+
+When a new largest result is found, all related information must be updated together.
+
+Example:
+
+```python
+if movement > largest_movement:
+    largest_movement = movement
+    starting_price = current_price
+    ending_price = next_price
+    starting_index = index
+    ending_index = index + 1
+```
+
+This creates a snapshot of the event that produced the current best result.
+
+---
+
+## Snapshot Concept
+
+A snapshot means capturing all relevant information about a result at the moment it becomes the best result.
+
+For example:
+
+```text
+movement = 25
+starting price = 95
+ending price = 120
+starting index = 5
+ending index = 6
+direction = increase
+```
+
+These values belong together because they describe the same movement.
+
+---
+
+## Important Rule
+
+> When a new best result is found, update every piece of information that belongs to that result at the same time.
+
+Otherwise, the program can accidentally combine information from different events.
+
+For example:
+
+```text
+largest movement → from index 5 → 6
+starting price   → from index 2
+```
+
+That would produce an incorrect result.
+
+---
+
+## Direction + Magnitude
+
+When analyzing movement, direction and magnitude are separate concepts.
+
+### Direction
+
+Signed change tells us the direction:
+
+```python
+change = next_value - current_value
+```
+
+Example:
+
+```text
+100 → 105 = +5  → Increase
+105 → 102 = -3  → Decrease
+```
+
+### Magnitude
+
+Magnitude tells us how far the value moved without caring about direction.
+
+```text
+100 → 105 = 5
+105 → 102 = 3
+110 → 95  = 15
+```
+
+Therefore, a movement can have:
+
+```text
+Magnitude: 15
+Direction: Decrease
+```
+
+Both pieces of information can be tracked together.
+
+---
+
+## Why State Tracking Matters
+
+State tracking is a fundamental programming pattern.
+
+It allows a program to process data one element at a time while remembering important information from everything it has already processed.
+
+This pattern is used for:
+
+* finding maximum/minimum values
+* counting events
+* calculating totals
+* finding first occurrences
+* tracking best/worst results
+* analyzing sequences
+* searching for patterns
+* many algorithm and DSA problems
+
+---
+
+## Current Learning Position
+
+Python
+
+→ Data Manipulation
+
+→ Sequential Data Analysis
+
+→ Running State
+
+→ State Tracking
+
+→ Tracking Related Information
+
+This is the current topic we are practicing.
